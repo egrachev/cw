@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" ng-app="CopywritersApp">
+<head>
+  <meta charset="utf-8">
+  <title>Копирайтеры</title>
+  <link rel="stylesheet" href="css/app.css"/>
+  <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css"/>
+</head>
+<body>
+
+    <div class="container" ng-controller="AddController">
+        <h1>Копирайтеры</h1>
+        <hr />
+
+        <form name="new_cw" class="form-inline" role="form">
+            <div class="form-group">
+                <label for="id_name">Имя копирайтера</label>
+                <input id="id_name" name-unique class="form-control" ng-model="new_cw.name" placeholder="Имя копирайтера" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_type">Тип копирайтера</label>
+                <select id="id_type" class="form-control" ng-model="new_cw.type" ng-init="new_cw.type='white'" placeholder="Тип копирайтера">
+                    <option value="white">Белый</option>
+                    <option value="black">Черный</option>
+                </select>
+            </div>
+
+            <button id="add_copyriter" type="submit" class="btn btn-success" ng-disabled="!new_cw.$valid" ng-click="add_cw(new_cw)">
+                <span class="glyphicon glyphicon-plus"></span>
+                Добавить копирайтера
+            </button>
+        </form>
+
+        <span class="label label-danger" ng-show="new_cw.$error.name_unique">Такой копирайтер уже есть</span>
+
+        <hr />
+
+        <div class="row">
+
+            <div class="col-md-6 left-col">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Белые списки</div>
+                    <div class="panel-body" ng-repeat="cw in get_white_list(cw_list) | orderBy:'name'">
+                        
+                        <div class="cw-item">
+                            <div class="name pull-left">{{ cw.name }}</div>
+
+                            <div class="actions pull-right">
+                                <button class="btn" ng-click="change_type(cw)">
+                                    <span class="glyphicon glyphicon-arrow-right"></span>
+                                </button>
+                                <button class="btn btn-danger" ng-click="remove_cw(cw)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 right-col">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Черные списки</div>
+                    <div class="panel-body" ng-repeat="cw in get_black_list(cw_list) | orderBy:'name'">
+
+                        <div class="cw-item">
+                            <div class="name pull-left">{{ cw.name }}</div>
+
+                            <div class="actions pull-right">
+                                <button class="btn" ng-click="change_type(cw)">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>
+                                </button>
+                                <button class="btn btn-danger" ng-click="remove_cw(cw)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>             
+            </div>
+
+        </div>
+    </div>
+
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/bootstrap/bootstrap.min.js"></script>
+    <script src="lib/underscore-min.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    
+    <script src="js/app.js"></script>
+    <script src="js/controllers/AddController.js"></script>
+    <script src="js/directives.js"></script>
+</body>
+</html>
